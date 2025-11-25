@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories | CyberCozy - 90s Geek Blog</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base Styles with 90s Geek Aesthetic */
+        :root {
+            /* 90s Color Palette */
+            --cream: #f0e6d6;
+            --warm-brown: #8b7355;
+            --soft-green: #7d9d7c;
+            --dark-brown: #4a3526;
+            --light-pink: #e8d7d1;
+            --shadow: 2px 2px 0px #000;
+            --text-color: #333;
+            --bg-color: #f0e6d6;
+            --card-bg: #ffffff;
+            --header-bg: #d4c0a1;
+            --footer-bg: #4a3526;
+            --input-bg: #ffffff;
+            --border-color: #8b7355;
+            --accent-1: #ff6b6b;
+            --accent-2: #4ecdc4;
+            --accent-3: #ffe66d;
+        }
+
+        /* Dark Theme Colors */
+        [data-theme="dark"] {
+            --cream: #2d2a24;
+            --warm-brown: #c8a97e;
+            --soft-green: #6a7f6f;
+            --dark-brown: #e8d7d1;
+            --light-pink: #4a423a;
+            --shadow: 2px 2px 0px #000;
+            --text-color: #e8d7d1;
+            --bg-color: #2d2a24;
+            --card-bg: #3a352d;
+            --header-bg: #4a3526;
+            --footer-bg: #1a1714;
+            --input-bg: #3a352d;
+            --border-color: #8b7355;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 20%);
+        }
+        
+        a {
+            text-decoration: none;
+            color: var(--warm-brown);
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            color: var(--accent-1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* CRT Screen Effect */
+        .crt::after {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: rgba(18, 16, 16, 0.1);
+            opacity: 0.3;
+            z-index: 2;
+            pointer-events: none;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--header-bg);
+            padding: 15px 0;
+            border-bottom: 3px double var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--dark-brown);
+            font-family: 'Comic Sans MS', cursive;
+            display: flex;
+            align-items: center;
+            z-index: 1001;
+            text-shadow: 2px 2px 0px var(--accent-3);
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--accent-1);
+            animation: blink 2s infinite;
+        }
+        
+        .logo span {
+            color: var(--accent-2);
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Desktop Navigation */
+        .desktop-nav {
+            display: flex;
+        }
+        
+        .desktop-nav ul {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+        
+        .desktop-nav ul li {
+            margin-left: 20px;
+            position: relative;
+        }
+        
+        .desktop-nav ul li a {
+            font-size: 1.1rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 10px;
+            border: 1px solid transparent;
+            border-radius: 0;
+        }
+        
+        .desktop-nav ul li a:hover {
+            border: 1px dashed var(--accent-1);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--warm-brown);
+            padding: 5px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 1px 1px 0px #000;
+        }
+        
+        .theme-toggle:hover {
+            background-color: var(--light-pink);
+            transform: translate(1px, 1px);
+            box-shadow: none;
+        }
+        
+        .dark-mode-icon, .light-mode-icon {
+            display: none;
+        }
+        
+        [data-theme="light"] .light-mode-icon {
+            display: block;
+        }
+        
+        [data-theme="dark"] .dark-mode-icon {
+            display: block;
+        }
+        
+        /* Mobile Navigation */
+        .mobile-nav-toggle {
+            display: none;
+            background: none;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--warm-brown);
+            padding: 5px;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            box-shadow: 1px 1px 0px #000;
+        }
+        
+        .mobile-nav-toggle:hover {
+            background-color: var(--light-pink);
+            transform: translate(1px, 1px);
+            box-shadow: none;
+        }
+        
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background-color: var(--header-bg);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            padding: 80px 30px 30px;
+            transition: right 0.4s ease;
+            z-index: 999;
+            overflow-y: auto;
+            border-left: 3px double var(--border-color);
+        }
+        
+        .mobile-nav.active {
+            right: 0;
+        }
+        
+        .mobile-nav ul {
+            list-style: none;
+        }
+        
+        .mobile-nav ul li {
+            margin-bottom: 20px;
+        }
+        
+        .mobile-nav ul li a {
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-nav ul li a:hover {
+            color: var(--accent-1);
+            padding-left: 10px;
+        }
+        
+        .mobile-nav .theme-toggle {
+            margin-top: 30px;
+            width: 100%;
+            justify-content: flex-start;
+            padding: 10px;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 998;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            background-color: var(--light-pink);
+            padding: 15px 0;
+            margin-bottom: 30px;
+            border-bottom: 2px dashed var(--border-color);
+        }
+        
+        .breadcrumb ul {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        
+        .breadcrumb ul li {
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb ul li:not(:last-child)::after {
+            content: ">";
+            margin-left: 10px;
+            color: var(--accent-1);
+        }
+        
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 0;
+            background-color: var(--light-pink);
+            border: 3px double var(--border-color);
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        
+        .page-header::before {
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px dashed var(--accent-3);
+            pointer-events: none;
+        }
+        
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-family: 'Comic Sans MS', cursive;
+            color: var(--dark-brown);
+            text-shadow: 3px 3px 0px var(--accent-3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .page-subtitle {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Categories Grid */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .category-card {
+            background-color: var(--card-bg);
+            border: 2px solid var(--border-color);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .category-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px dashed var(--accent-2);
+            pointer-events: none;
+        }
+        
+        .category-card:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 4px 4px 0px #000;
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 2px dashed var(--border-color);
+            background-color: var(--light-pink);
+        }
+        
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--accent-1);
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.8rem;
+            color: white;
+            border: 2px solid var(--border-color);
+        }
+        
+        .category-info {
+            flex: 1;
+        }
+        
+        .category-title {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            font-family: 'Comic Sans MS', cursive;
+            color: var(--dark-brown);
+        }
+        
+        .category-count {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+        
+        .category-description {
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .category-posts {
+            padding: 0 20px 20px;
+        }
+        
+        .category-posts-title {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: var(--dark-brown);
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 5px;
+        }
+        
+        .post-list {
+            list-style: none;
+        }
+        
+        .post-list li {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dotted var(--border-color);
+        }
+        
+        .post-list li:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .post-list a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .post-title {
+            flex: 1;
+        }
+        
+        .post-date {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        
+        .view-all {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            padding: 8px;
+            background-color: var(--light-pink);
+            border: 1px dashed var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .view-all:hover {
+            background-color: var(--accent-1);
+            color: white;
+        }
+        
+        /* Popular Tags */
+        .popular-tags {
+            background-color: var(--light-pink);
+            padding: 40px 0;
+            margin-bottom: 60px;
+            border: 3px double var(--border-color);
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        
+        .popular-tags::before {
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px dashed var(--accent-3);
+            pointer-events: none;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            font-family: 'Comic Sans MS', cursive;
+            color: var(--dark-brown);
+            text-shadow: 2px 2px 0px var(--accent-3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-title::before, .section-title::after {
+            content: "✦";
+            margin: 0 15px;
+            color: var(--accent-1);
+        }
+        
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: var(--card-bg);
+            padding: 8px 15px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            box-shadow: 1px 1px 0px #000;
+        }
+        
+        .tag:hover {
+            background-color: var(--accent-1);
+            color: white;
+            transform: translate(-2px, -2px);
+            box-shadow: 3px 3px 0px #000;
+        }
+        
+        .tag-large {
+            font-size: 1.1rem;
+            padding: 10px 20px;
+        }
+        
+        .tag-small {
+            font-size: 0.8rem;
+            padding: 5px 10px;
+        }
+        
+        /* Archive Section */
+        .archive {
+            margin-bottom: 60px;
+        }
+        
+        .archive-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .archive-year {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border: 2px solid var(--border-color);
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        
+        .archive-year::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px dashed var(--accent-2);
+            pointer-events: none;
+        }
+        
+        .year-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-family: 'Comic Sans MS', cursive;
+            color: var(--dark-brown);
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 5px;
+        }
+        
+        .month-posts {
+            margin-bottom: 15px;
+        }
+        
+        .month-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--accent-1);
+        }
+        
+        .month-posts ul {
+            list-style: none;
+            margin-left: 15px;
+        }
+        
+        .month-posts li {
+            margin-bottom: 5px;
+            padding-left: 10px;
+            position: relative;
+        }
+        
+        .month-posts li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent-2);
+        }
+        
+        /* Newsletter */
+        .newsletter {
+            background-color: var(--soft-green);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 60px;
+            border: 3px double var(--border-color);
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        
+        .newsletter::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 5px,
+                    rgba(255,255,255,0.1) 5px,
+                    rgba(255,255,255,0.1) 10px
+                );
+        }
+        
+        .newsletter h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            font-family: 'Comic Sans MS', cursive;
+            text-shadow: 2px 2px 0px #000;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px;
+            border: 2px outset var(--border-color);
+            font-size: 1rem;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            font-family: 'Courier New', monospace;
+        }
+        
+        .newsletter-form button {
+            background-color: var(--accent-1);
+            color: white;
+            border: 2px outset var(--accent-1);
+            padding: 0 25px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+        
+        .newsletter-form button:hover {
+            background-color: var(--accent-2);
+            border: 2px inset var(--accent-2);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--footer-bg);
+            color: white;
+            padding: 50px 0 20px;
+            border-top: 3px double var(--border-color);
+            position: relative;
+        }
+        
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            font-family: 'Comic Sans MS', cursive;
+            color: var(--accent-3);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #ccc;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--accent-1);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 0;
+            text-align: center;
+            line-height: 40px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        .social-links a:hover {
+            background-color: var(--accent-1);
+            color: white;
+            transform: translate(-2px, -2px);
+            box-shadow: 2px 2px 0px #000;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.2);
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+        
+        /* Geeky Elements */
+        .blink {
+            animation: blink 1s infinite;
+        }
+        
+        .marquee {
+            background: var(--accent-1);
+            color: white;
+            padding: 5px 0;
+            margin-bottom: 20px;
+            border-top: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
+            overflow: hidden;
+            white-space: nowrap;
+            box-shadow: 0 2px 0px #000;
+        }
+        
+        .marquee-content {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 15s linear infinite;
+            font-family: 'Courier New', monospace;
+        }
+        
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .desktop-nav {
+                display: none;
+            }
+            
+            .mobile-nav-toggle {
+                display: flex;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 10px 0;
+            }
+            
+            .logo {
+                font-size: 1.8rem;
+            }
+            
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .page-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .newsletter-form input {
+                margin-bottom: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .category-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .category-icon {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light" class="crt">
+    <!-- Marquee -->
+    <div class="marquee">
+        <div class="marquee-content">
+            ✦ WELCOME TO CYBERCOZY - YOUR 90S GEEK HAVEN ✦ UNDER CONSTRUCTION ✦ NEW POSTS EVERY WEEK ✦ 
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-laptop-code blink"></i>
+                    Cyber<span>Cozy</span>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <nav class="desktop-nav">
+                    <ul>
+                        <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#"><i class="fas fa-keyboard"></i> Blog</a></li>
+                        <li><a href="#"><i class="fas fa-user-astronaut"></i> About</a></li>
+                        <li><a href="#"><i class="fas fa-folder-open"></i> Categories</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
+                        <li>
+                            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                                <i class="fas fa-moon dark-mode-icon"></i>
+                                <i class="fas fa-sun light-mode-icon"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+                
+                <!-- Mobile Navigation Toggle -->
+                <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <nav class="mobile-nav" id="mobileNav">
+            <ul>
+                <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#"><i class="fas fa-keyboard"></i> Blog</a></li>
+                <li><a href="#"><i class="fas fa-user-astronaut"></i> About</a></li>
+                <li><a href="#"><i class="fas fa-folder-open"></i> Categories</a></li>
+                <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li>
+                    <button class="theme-toggle" id="mobileThemeToggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon dark-mode-icon"></i>
+                        <i class="fas fa-sun light-mode-icon"></i>
+                        <span>Toggle Theme</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+        
+        <!-- Overlay for mobile menu -->
+        <div class="overlay" id="overlay"></div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="container">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li>Categories</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">Blog Categories</h1>
+            <p class="page-subtitle">Explore all our content organized by topic. From retro gaming to web development, find exactly what you're looking for.</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Categories Grid -->
+        <section class="categories-grid">
+            <!-- Retro Gaming Category -->
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="category-info">
+                        <h2 class="category-title">Retro Gaming</h2>
+                        <div class="category-count">42 posts</div>
+                    </div>
+                </div>
+                <div class="category-description">
+                    <p>Relive the golden age of gaming with reviews, retrospectives, and deep dives into classic games from the 80s and 90s.</p>
+                </div>
+                <div class="category-posts">
+                    <h3 class="category-posts-title">Recent Posts</h3>
+                    <ul class="post-list">
+                        <li>
+                            <a href="#">
+                                <span class="post-title">Why SNES Games Still Hold Up Today</span>
+                                <span class="post-date">Jun 12</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="post-title">The Legacy of Sega Genesis</span>
+                                <span class="post-date">May 28</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="post-title">Rediscovering Point-and-Click Adventures</span>
+                                <span class="post-date">Apr 30</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <a href="#" class="view-all">View All Retro Gaming Posts →</a>
+                </div>
+            </div>
+            
+            <!-- Tech Nostalgia Category -->
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <div class="category-info">
+                        <h2 class="category-title">Tech Nostalgia</h2>
+                        <div class="category-count">35 posts</div>
+                    </div>
+                </div>
+                <div class="category-description">
+                    <p>Remember the beige boxes, floppy disks, and dial-up modems? Explore the technology that defined the 90s computing experience.</p>
+                </div>
+                <div class="category-posts">
+                    <h3 class="category-posts-title">Recent Posts</h3>
+                    <ul class="post-list">
+                        <li>
+                            <a href="#">
+                                <span class="post-title">The Aesthetic of 90s Computer Labs</span>
+                                <span class="post-date">May 15</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="post-title">Why We Still Love CRT Monitors</span>
+                                <span class="post-date">Apr 18</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="post-title">The Sound of Dial-Up: A Eulogy</span>
+                                <span class="post-date">Mar 22</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <a href="#" class="view-all">View All Tech Nostalgia Posts →</a>
+                </div>
+            </div>
+            
+            <!-- DIY Projects Category -->
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div class="category-info">
+                        <h2 class="category-title">DIY Projects</h2>
+                        <div class="category-count">28 posts</div>
+                    </div>
+                </div>
+                <div class="category-description">
+                    <p>Hands-on guides for retro tech restoration, modern projects with vintage aesthetics, and creative ways to blend old and new.</p>
+                </div>
+                <div class="category-posts">
+                    <h3 class="category-posts-title">Recent Posts</h3>
+                    <ul class="post-list">
+                        <li>
+                            <a href="#">
+                                <span class="post-title">Building a Retro PC for Modern Use</span>
+                                <span class="post-date">Jun 5</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="post-title">Restoring a Classic Mechanical Keyboard</span>
+                                <span class="post-date">May 10</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="post-title">Raspberry Pi Retro Gaming Console</span>
+                                <span class="post-date">Apr 3</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <a href="#" class="view-all">View All DIY Projects →</a>
+                </div>
+            </div>
+            
+            <!-- Anime & Manga Category -->
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-dragon"></i>
+                    </div>
+                    <div class="category-info">
+                        <h2 class="category-title">Anime & Manga</h2>
+                        <div class="category-count">31 posts</div>
+                    </div>
+                </div>
+                <div class="category-description">
+                    <p>Celebrating the anime and manga that defined 90s Western fandom. From Sailor Moon to Dragon Ball Z and everything in between.</p>
+                </div>
+                <div class="category-posts">
+                    <h3 class="category-posts-title">Recent Posts</h3>
+                    <ul class="post-list">
+                        <li>
+                            <a href="#">
+                                <span class="post-title">The Toonami Revolution</span>
+                                <span class="post-date">May 22</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="post-title">Rediscovering 90s Shojo Manga</span>
+                                <span class="post-date">Apr 14</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="post-title">The Evolution of Gundam Models</span>
+                                <span class="post-date">Mar 8</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <a href="#" class="view-all">View All Anime & Manga Posts →</a>
+                </div>
+            </div>
+            
+            <!-- Coding & Web Category -->
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="category-info">
+                        <h2 class="category-title">Coding & Web</h2>
+                        <div class="category-count">39 posts</div>
+                    </div>
+                </div>
+                <div class="category-description">
+                    <p>Web development with a nostalgic twist. Exploring early web design, modern retro aesthetics, and coding projects inspired by the past.</p>
+                </div>
+                <div class="category-posts">
+                    <h3 class="category-posts-title">Recent Posts</h3>
+                    <ul class="post-list">
+                        <li>
+                            <a href="#">
+                                <span class="post-title">Building a Geocities-Style Website in 2023</span>
+                                <span class="post-date">Jun 8</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="post-title">The Charm of Early Web Design</span>
+                                <span class="post-date">May 17</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="post-title">CSS Tricks for Retro Aesthetics</span>
+                                <span class="post-date">Apr 25</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <a href="#" class="view-all">View All Coding & Web Posts →</a>
+                </div>
+            </div>
+            
+            <!-- Pop Culture Category -->
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <div class="category-info">
+                        <h2 class="category-title">Pop Culture</h2>
+                        <div class="category-count">26 posts</div>
+                    </div>
+                </div>
+                <div class="category-description">
+                    <p>Remembering the TV shows, movies, toys, and trends that made the 90s such a distinctive and memorable decade.</p>
+                </div>
+                <div class="category-posts">
+                    <h3 class="category-posts-title">Recent Posts</h3>
+                    <ul class="post-list">
+                        <li>
+                            <a href="#">
+                                <span class="post-title">The Tamagotchi Craze: Then and Now</span>
+                                <span class="post-date">May 30</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="post-title">Saturday Morning Cartoons: A Retrospective</span>
+                                <span class="post-date">Apr 12</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="post-title">The Power Rangers Phenomenon</span>
+                                <span class="post-date">Mar 5</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <a href="#" class="view-all">View All Pop Culture Posts →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Tags -->
+        <section class="popular-tags">
+            <div class="container">
+                <h2 class="section-title">Popular Tags</h2>
+                <div class="tags-container">
+                    <a href="#" class="tag tag-large">Nintendo</a>
+                    <a href="#" class="tag">Sega</a>
+                    <a href="#" class="tag tag-large">PlayStation</a>
+                    <a href="#" class="tag">DOS</a>
+                    <a href="#" class="tag">Windows 95</a>
+                    <a href="#" class="tag tag-large">Retro Computing</a>
+                    <a href="#" class="tag">Pixel Art</a>
+                    <a href="#" class="tag">16-bit</a>
+                    <a href="#" class="tag">Arcade</a>
+                    <a href="#" class="tag tag-large">Web 1.0</a>
+                    <a href="#" class="tag">Geocities</a>
+                    <a href="#" class="tag">HTML</a>
+                    <a href="#" class="tag">CSS</a>
+                    <a href="#" class="tag">JavaScript</a>
+                    <a href="#" class="tag">Anime</a>
+                    <a href="#" class="tag">Manga</a>
+                    <a href="#" class="tag">Cartoons</a>
+                    <a href="#" class="tag">Toys</a>
+                    <a href="#" class="tag">Collecting</a>
+                    <a href="#" class="tag">Restoration</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Archive Section -->
+        <section class="archive">
+            <h2 class="section-title">Blog Archive</h2>
+            <div class="archive-content">
+                <div class="archive-year">
+                    <h3 class="year-title">2023</h3>
+                    <div class="month-posts">
+                        <div class="month-title">June</div>
+                        <ul>
+                            <li><a href="#">Why SNES Games Still Hold Up Today</a></li>
+                            <li><a href="#">Building a Geocities-Style Website in 2023</a></li>
+                            <li><a href="#">Building a Retro PC for Modern Use</a></li>
+                        </ul>
+                    </div>
+                    <div class="month-posts">
+                        <div class="month-title">May</div>
+                        <ul>
+                            <li><a href="#">The Toonami Revolution</a></li>
+                            <li><a href="#">The Tamagotchi Craze: Then and Now</a></li>
+                            <li><a href="#">The Aesthetic of 90s Computer Labs</a></li>
+                            <li><a href="#">The Legacy of Sega Genesis</a></li>
+                        </ul>
+                    </div>
+                    <div class="month-posts">
+                        <div class="month-title">April</div>
+                        <ul>
+                            <li><a href="#">Rediscovering 90s Shojo Manga</a></li>
+                            <li><a href="#">Why We Still Love CRT Monitors</a></li>
+                            <li><a href="#">Saturday Morning Cartoons: A Retrospective</a></li>
+                            <li><a href="#">Rediscovering Point-and-Click Adventures</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="archive-year">
+                    <h3 class="year-title">2022</h3>
+                    <div class="month-posts">
+                        <div class="month-title">December</div>
+                        <ul>
+                            <li><a href="#">Retro Gaming Gift Guide 2022</a></li>
+                            <li><a href="#">The Best 90s Christmas Episodes</a></li>
+                        </ul>
+                    </div>
+                    <div class="month-posts">
+                        <div class="month-title">November</div>
+                        <ul>
+                            <li><a href="#">Building a Raspberry Pi Retro Console</a></li>
+                            <li><a href="#">The History of Flash Games</a></li>
+                        </ul>
+                    </div>
+                    <div class="month-posts">
+                        <div class="month-title">October</div>
+                        <ul>
+                            <li><a href="#">Spooky 90s Video Games</a></li>
+                            <li><a href="#">The Evolution of Halloween Costumes</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="archive-year">
+                    <h3 class="year-title">2021</h3>
+                    <div class="month-posts">
+                        <div class="month-title">Highlights</div>
+                        <ul>
+                            <li><a href="#">The Complete Guide to Retro Game Emulation</a></li>
+                            <li><a href="#">Remembering Blockbuster Video</a></li>
+                            <li><a href="#">90s Internet Culture: A Retrospective</a></li>
+                            <li><a href="#">The Best 16-bit Soundtracks</a></li>
+                            <li><a href="#">View all 2021 posts →</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter -->
+        <section class="newsletter">
+            <div class="container">
+                <h2>Never Miss a Post</h2>
+                <p>Subscribe to our newsletter for weekly doses of nostalgia delivered straight to your terminal.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="your.email@retro.net" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>CyberCozy</h3>
+                    <p>A cozy corner of the internet for 90s kids and retro tech enthusiasts.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-tumblr"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><a href="#">Retro Gaming</a></li>
+                        <li><a href="#">Tech Nostalgia</a></li>
+                        <li><a href="#">DIY Projects</a></li>
+                        <li><a href="#">Anime & Manga</a></li>
+                        <li><a href="#">Coding & Web</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Webring</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 CyberCozy. Made with <i class="fas fa-heart blink"></i> and too much caffeine.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dark Mode Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+        const body = document.body;
+        
+        // Check for saved theme preference or respect OS preference
+        const savedTheme = localStorage.getItem('theme') || 
+                          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        
+        // Apply the saved theme
+        body.setAttribute('data-theme', savedTheme);
+        
+        // Toggle theme on button click
+        function toggleTheme() {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+        
+        themeToggle.addEventListener('click', toggleTheme);
+        mobileThemeToggle.addEventListener('click', toggleTheme);
+        
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            // Only auto-switch if user hasn't manually set a preference
+            if (!localStorage.getItem('theme')) {
+                body.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+            }
+        });
+        
+        // Mobile Navigation Toggle
+        const mobileNavToggle = document.getElementById('mobileNavToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        const overlay = document.getElementById('overlay');
+        
+        function toggleMobileNav() {
+            mobileNav.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+            
+            // Change icon based on menu state
+            const icon = mobileNavToggle.querySelector('i');
+            if (mobileNav.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        }
+        
+        mobileNavToggle.addEventListener('click', toggleMobileNav);
+        overlay.addEventListener('click', toggleMobileNav);
+        
+        // Close mobile menu when clicking on a link
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', toggleMobileNav);
+        });
+        
+        // Close mobile menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
+                toggleMobileNav();
+            }
+        });
+        
+        // Add some 90s sound effects for buttons
+        const buttons = document.querySelectorAll('.btn, .theme-toggle, .mobile-nav-toggle');
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                // In a real implementation, you could play a sound effect here
+                // For now, we'll just add a visual effect
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
