@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cyberdaisy.cv // 90s geek blog style</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Share+Tech+Mono&display=swap">
+    <style>
+        /* Reset and base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+CjxyZWN0IHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgZmlsbD0iI2Y1ZjVmNSI+PC9yZWN0Pgo8Y2lyY2xlIGN4PSIxNSIgY3k9IjE1IiByPSIyIiBmaWxsPSIjZThlOGU4IiBvcGFjaXR5PSIwLjMiPjwvY2lyY2xlPgo8Y2lyY2xlIGN4PSI0NSIgY3k9IjQ1IiByPSIzIiBmaWxsPSIjZThlOGU4IiBvcGFjaXR5PSIwLjMiPjwvY2lyY2xlPgo8L3N2Zz4=');
+            color: #333;
+            font-family: 'Comic Neue', cursive;
+            line-height: 1.6;
+            font-size: 16px;
+            padding: 20px;
+        }
+        
+        /* Main container with that soft Tumblr look */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+        
+        /* Header - soft and welcoming */
+        header {
+            background: linear-gradient(135deg, #ffd6e7 0%, #c1f0ff 100%);
+            padding: 40px 30px 30px;
+            border-bottom: 3px dashed #ffb8d9;
+            text-align: center;
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .blog-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 2.8rem;
+            color: #ff66a3;
+            text-shadow: 2px 2px 0 #ffd6e7;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 25px;
+        }
+        
+        /* Navigation tabs */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 25px;
+        }
+        
+        .nav-tab {
+            padding: 12px 24px;
+            background-color: white;
+            border-radius: 30px;
+            border: 2px solid #ffb8d9;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            color: #ff66a3;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tab:hover, .nav-tab.active {
+            background-color: #ff66a3;
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        /* Two-column layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+        
+        /* Main content area */
+        .content-area {
+            padding-right: 20px;
+        }
+        
+        /* Sidebar - very Tumblr */
+        .sidebar {
+            padding-left: 20px;
+            border-left: 2px dotted #b3e6ff;
+        }
+        
+        /* Blog post styling */
+        .blog-post {
+            background-color: #f9f9f9;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid #e6e6e6;
+            transition: transform 0.3s ease;
+        }
+        
+        .blog-post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ffd6e7;
+        }
+        
+        .post-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffb8d9, #b3e6ff);
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+        
+        .post-meta {
+            flex-grow: 1;
+        }
+        
+        .post-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.4rem;
+            color: #ff66a3;
+            margin-bottom: 5px;
+        }
+        
+        .post-date {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        /* CV Content */
+        .cv-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.5rem;
+            color: #4db8ff;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px dotted #b3e6ff;
+        }
+        
+        .cv-item {
+            margin-bottom: 25px;
+            padding-left: 20px;
+            border-left: 4px solid #ffb8d9;
+        }
+        
+        .item-title {
+            font-weight: bold;
+            color: #ff66a3;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .item-subtitle {
+            color: #4db8ff;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+        
+        /* Skills clouds */
+        .skills-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .skill-tag {
+            background-color: #e6f7ff;
+            color: #4db8ff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid #b3e6ff;
+        }
+        
+        .skill-tag.html { background-color: #fff0f5; color: #ff66a3; border-color: #ffb8d9; }
+        .skill-tag.css { background-color: #f0f8ff; color: #4db8ff; border-color: #b3e6ff; }
+        .skill-tag.js { background-color: #fff8e1; color: #ffb347; border-color: #ffd8a6; }
+        
+        /* Sidebar widgets */
+        .widget {
+            background-color: #f9f9f9;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid #e6e6e6;
+        }
+        
+        .widget-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.2rem;
+            color: #ff66a3;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .widget-title i {
+            margin-right: 10px;
+        }
+        
+        /* About me widget */
+        .about-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffb8d9, #b3e6ff);
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+        }
+        
+        /* Blog stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background-color: white;
+            border-radius: 10px;
+            border: 1px solid #e6e6e6;
+        }
+        
+        .stat-number {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.5rem;
+            color: #ff66a3;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #888;
+        }
+        
+        /* Currently playing */
+        .music-player {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 10px;
+            padding: 12px;
+            border: 1px solid #e6e6e6;
+        }
+        
+        .music-cover {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #ffb8d9, #b3e6ff);
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .music-info {
+            flex-grow: 1;
+        }
+        
+        .song-title {
+            font-weight: bold;
+            color: #ff66a3;
+            font-size: 0.95rem;
+        }
+        
+        .artist {
+            color: #888;
+            font-size: 0.85rem;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 25px;
+            background-color: #f9f9f9;
+            border-top: 3px dashed #b3e6ff;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .footer-link {
+            color: #4db8ff;
+            text-decoration: none;
+        }
+        
+        /* Cute decorations */
+        .pixel-divider {
+            text-align: center;
+            margin: 20px 0;
+            color: #ffb8d9;
+            font-size: 20px;
+            letter-spacing: 10px;
+        }
+        
+        .note-box {
+            background-color: #fff0f5;
+            border-left: 4px solid #ff66a3;
+            padding: 15px;
+            border-radius: 0 10px 10px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 900px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .content-area {
+                padding-right: 0;
+            }
+            
+            .sidebar {
+                padding-left: 0;
+                border-left: none;
+                border-top: 2px dotted #b3e6ff;
+                padding-top: 20px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .nav-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-tab {
+                width: 200px;
+            }
+            
+            .blog-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1 class="blog-title">cyberdaisy.cv</h1>
+                <p class="subtitle">web developer • pixel artist • 90s internet enthusiast</p>
+                
+                <div class="nav-tabs">
+                    <div class="nav-tab active" data-section="home">🏠 home</div>
+                    <div class="nav-tab" data-section="cv">📄 my cv</div>
+                    <div class="nav-tab" data-section="portfolio">✨ portfolio</div>
+                    <div class="nav-tab" data-section="blog">📝 blog</div>
+                    <div class="nav-tab" data-section="contact">📧 contact</div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="main-layout">
+            <main class="content-area">
+                <!-- Home Section -->
+                <section id="home" class="blog-post">
+                    <div class="post-header">
+                        <div class="post-avatar">🌼</div>
+                        <div class="post-meta">
+                            <div class="post-title">welcome to my digital space!</div>
+                            <div class="post-date">last updated: today • 2:47 PM</div>
+                        </div>
+                    </div>
+                    
+                    <p>hi! i'm daisy, a web developer who loves all things cute and geeky. this is my little corner of the internet where i share my work, thoughts, and love for 90s web design.</p>
+                    
+                    <div class="pixel-divider">✦ ✦ ✦</div>
+                    
+                    <p>i believe the web should be fun, personal, and accessible. that's why i build websites that feel like digital scrapbooks—full of personality and little surprises.</p>
+                    
+                    <div class="note-box">
+                        <strong>💭 currently:</strong> listening to cardcaptor sakura OST • drinking matcha latte • working on a pixel art generator
+                    </div>
+                    
+                    <p>on this site you'll find my professional experience, personal projects, and blog posts about web development, design, and internet nostalgia. feel free to look around!</p>
+                </section>
+                
+                <!-- CV Section -->
+                <section id="cv" class="blog-post hidden">
+                    <div class="post-header">
+                        <div class="post-avatar">📄</div>
+                        <div class="post-meta">
+                            <div class="post-title">my curriculum vitae</div>
+                            <div class="post-date">updated: october 2023</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cv-section">
+                        <h3 class="section-title">experience</h3>
+                        
+                        <div class="cv-item">
+                            <div class="item-title">Frontend Developer</div>
+                            <div class="item-subtitle">PixelDream Studios • 2020 - Present</div>
+                            <p>Creating whimsical web experiences with a focus on animation and interactivity. Lead developer on several award-winning interactive story projects.</p>
+                            <div class="skills-cloud">
+                                <span class="skill-tag html">HTML5</span>
+                                <span class="skill-tag css">CSS3/SCSS</span>
+                                <span class="skill-tag js">JavaScript</span>
+                                <span class="skill-tag">GSAP</span>
+                                <span class="skill-tag">React</span>
+                            </div>
+                        </div>
+                        
+                        <div class="cv-item">
+                            <div class="item-title">Web Designer</div>
+                            <div class="item-subtitle">Freelance • 2017 - 2020</div>
+                            <p>Designed and developed custom websites for small businesses, artists, and bloggers. Specialized in creating sites with strong visual identities and intuitive UX.</p>
+                            <div class="skills-cloud">
+                                <span class="skill-tag">UI/UX Design</span>
+                                <span class="skill-tag">WordPress</span>
+                                <span class="skill-tag">Illustrator</span>
+                                <span class="skill-tag">Responsive Design</span>
+                            </div>
+                        </div>
+                        
+                        <div class="cv-item">
+                            <div class="item-title">Community Moderator</div>
+                            <div class="item-subtitle">Neopets Fan Site • 2014 - 2017</div>
+                            <p>Managed one of the largest Neopets fan communities, created custom pet pages and layouts, and organized virtual events for thousands of users.</p>
+                            <div class="skills-cloud">
+                                <span class="skill-tag">Community Management</span>
+                                <span class="skill-tag">HTML/CSS</span>
+                                <span class="skill-tag">Graphic Design</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="cv-section">
+                        <h3 class="section-title">education</h3>
+                        
+                        <div class="cv-item">
+                            <div class="item-title">B.A. Digital Media Design</div>
+                            <div class="item-subtitle">University of Creative Arts • 2016 - 2020</div>
+                            <p>Graduated with honors. Thesis project: "Nostalgia as a Design Principle: Creating Emotional Connections Through Retro Web Aesthetics."</p>
+                        </div>
+                        
+                        <div class="cv-item">
+                            <div class="item-title">Web Development Bootcamp</div>
+                            <div class="item-subtitle">Codecademy • 2019</div>
+                            <p>Completed intensive full-stack JavaScript program with focus on modern frameworks and responsive design principles.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="cv-section">
+                        <h3 class="section-title">skills</h3>
+                        
+                        <div class="skills-cloud">
+                            <span class="skill-tag html">HTML5</span>
+                            <span class="skill-tag css">CSS3/SCSS</span>
+                            <span class="skill-tag js">JavaScript (ES6+)</span>
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Vue.js</span>
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">PHP</span>
+                            <span class="skill-tag">WordPress</span>
+                            <span class="skill-tag">UI/UX Design</span>
+                            <span class="skill-tag">Figma</span>
+                            <span class="skill-tag">Adobe Creative Suite</span>
+                            <span class="skill-tag">Pixel Art</span>
+                            <span class="skill-tag">Animation</span>
+                            <span class="skill-tag">Responsive Design</span>
+                            <span class="skill-tag">Git</span>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Portfolio Section -->
+                <section id="portfolio" class="blog-post hidden">
+                    <div class="post-header">
+                        <div class="post-avatar">✨</div>
+                        <div class="post-meta">
+                            <div class="post-title">my projects & creations</div>
+                            <div class="post-date">a collection of things i've built</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cv-section">
+                        <h3 class="section-title">featured projects</h3>
+                        
+                        <div class="cv-item">
+                            <div class="item-title">NeoPets Layout Generator</div>
+                            <div class="item-subtitle">Web Tool • 2022</div>
+                            <p>A browser-based tool that lets users create custom Neopets-style pet page layouts with drag-and-drop elements, animated backgrounds, and custom cursors.</p>
+                            <div class="note-box">
+                                <strong>💖 fun fact:</strong> this project started as a weekend experiment and now has over 10,000 monthly users!
+                            </div>
+                        </div>
+                        
+                        <div class="cv-item">
+                            <div class="item-title">90s Internet Museum</div>
+                            <div class="item-subtitle">Interactive Website • 2021</div>
+                            <p>An interactive digital museum exploring the aesthetics and culture of the early web. Features recreations of classic websites, web art exhibits, and historical context.</p>
+                        </div>
+                        
+                        <div class="cv-item">
+                            <div class="item-title">Pixel Art CSS Library</div>
+                            <div class="item-subtitle">Open Source • 2020 - Present</div>
+                            <p>A CSS framework for creating pixel-perfect interfaces with a retro aesthetic. Includes components, animations, and utility classes for building 90s-inspired websites.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="pixel-divider">☁️ ☁️ ☁️</div>
+                    
+                    <p>i'm always working on new projects that combine my love for coding with my passion for nostalgic design. check back often for updates!</p>
+                </section>
+                
+                <!-- Blog Section -->
+                <section id="blog" class="blog-post hidden">
+                    <div class="post-header">
+                        <div class="post-avatar">📝</div>
+                        <div class="post-meta">
+                            <div class="post-title">recent blog posts</div>
+                            <div class="post-date">thoughts on web dev & design</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cv-item">
+                        <div class="item-title">The Art of the Animated Under Construction GIF</div>
+                        <div class="item-subtitle">Posted: October 15, 2023</div>
+                        <p>Exploring why those spinning skulls, flashing "NEW!" badges, and dancing hamsters captured our hearts in the 90s, and how we can bring that playful spirit to modern web design.</p>
+                    </div>
+                    
+                    <div class="cv-item">
+                        <div class="item-title">Building a Personal Website That Feels Like Home</div>
+                        <div class="item-subtitle">Posted: September 28, 2023</div>
+                        <p>A guide to creating personal websites with personality, from choosing the right guestbook script to finding the perfect midi background music.</p>
+                    </div>
+                    
+                    <div class="cv-item">
+                        <div class="item-title">Why I Still Love Tables for Layout (Sometimes)</div>
+                        <div class="item-subtitle">Posted: September 5, 2023</div>
+                        <p>An unpopular opinion: table-based layouts aren't always evil. A look at when and why you might still use them for specific design effects.</p>
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>📚 archive:</strong> you can find all 127 of my blog posts in the <a href="#" style="color:#ff66a3;">archive section</a>!
+                    </div>
+                </section>
+                
+                <!-- Contact Section -->
+                <section id="contact" class="blog-post hidden">
+                    <div class="post-header">
+                        <div class="post-avatar">📧</div>
+                        <div class="post-meta">
+                            <div class="post-title">let's connect!</div>
+                            <div class="post-date">i'd love to hear from you</div>
+                        </div>
+                    </div>
+                    
+                    <p>whether you have a project in mind, want to collaborate, or just want to chat about 90s internet nostalgia, feel free to reach out!</p>
+                    
+                    <div class="cv-section" style="margin-top: 30px;">
+                        <h3 class="section-title">contact info</h3>
+                        
+                        <div class="cv-item" style="border-left-color: #4db8ff;">
+                            <div class="item-title">email</div>
+                            <p>daisy@cyberdaisy.dev</p>
+                        </div>
+                        
+                        <div class="cv-item" style="border-left-color: #4db8ff;">
+                            <div class="item-title">portfolio</div>
+                            <p>cyberdaisy.dev</p>
+                        </div>
+                        
+                        <div class="cv-item" style="border-left-color: #4db8ff;">
+                            <div class="item-title">github</div>
+                            <p>github.com/cyberdaisy</p>
+                        </div>
+                        
+                        <div class="cv-item" style="border-left-color: #4db8ff;">
+                            <div class="item-title">tumblr</div>
+                            <p>cyberdaisy.tumblr.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="note-box" style="background-color: #e6f7ff; border-left-color: #4db8ff;">
+                        <strong>💌 note:</strong> i check my email daily, but i'm most active on tumblr! my ask box is always open for questions about web development, design, or 90s anime recommendations.
+                    </div>
+                </section>
+            </main>
+            
+            <aside class="sidebar">
+                <!-- About Me Widget -->
+                <div class="widget">
+                    <div class="about-avatar">🌼</div>
+                    <h3 class="widget-title">about cyber.daisy</h3>
+                    <p style="text-align: center; font-size: 0.95rem; color: #666;">
+                        web developer<br>
+                        pixel artist<br>
+                    90s internet enthusiast<br>
+                        she/her • infp • ☕ addict
+                    </p>
+                </div>
+                
+                <!-- Stats Widget -->
+                <div class="widget">
+                    <h3 class="widget-title">📊 blog stats</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number" id="post-count">127</span>
+                            <span class="stat-label">posts</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="follower-count">2.4k</span>
+                            <span class="stat-label">followers</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">43</span>
+                            <span class="stat-label">drafts</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">1998</span>
+                            <span class="stat-label">since</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Currently Playing -->
+                <div class="widget">
+                    <h3 class="widget-title">🎵 now playing</h3>
+                    <div class="music-player">
+                        <div class="music-cover">🎶</div>
+                        <div class="music-info">
+                            <div class="song-title">butterfly - smile.dk</div>
+                            <div class="artist">dance dance revolution</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 15px; text-align: center;">
+                        <button id="play-btn" style="background: #ff66a3; color: white; border: none; padding: 8px 20px; border-radius: 20px; font-family: 'Share Tech Mono', monospace; cursor: pointer;">
+                            ▶ play/pause
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Tags Widget -->
+                <div class="widget">
+                    <h3 class="widget-title">🏷️ tags</h3>
+                    <div class="skills-cloud">
+                        <span class="skill-tag">webdev</span>
+                        <span class="skill-tag">90s</span>
+                        <span class="skill-tag">design</span>
+                        <span class="skill-tag">pixelart</span>
+                        <span class="skill-tag">css</span>
+                        <span class="skill-tag">javascript</span>
+                        <span class="skill-tag">anime</span>
+                        <span class="skill-tag">nostalgia</span>
+                        <span class="skill-tag">aesthetic</span>
+                        <span class="skill-tag">tumblr</span>
+                    </div>
+                </div>
+                
+                <!-- Cute Note -->
+                <div class="note-box" style="margin: 0; font-size: 0.9rem;">
+                    <strong>🌸 welcome!</strong> thanks for visiting my little corner of the internet. don't forget to sign the guestbook!
+                </div>
+            </aside>
+        </div>
+        
+        <footer>
+            <p>© 1998-2023 cyberdaisy.cv • all rights reserved</p>
+            <p>this site is best viewed with internet explorer 5.0+ at 800x600 resolution</p>
+            
+            <div class="footer-links">
+                <a href="#" class="footer-link">guestbook</a>
+                <a href="#" class="footer-link">archive</a>
+                <a href="#" class="footer-link">rss feed</a>
+                <a href="#" class="footer-link">webring</a>
+            </div>
+            
+            <div class="pixel-divider" style="margin: 15px 0 5px; color: #b3e6ff; font-size: 15px;">❀ ❀ ❀</div>
+            
+            <p style="font-size: 0.8rem; margin-top: 10px;">
+                <span id="visitor-count">1,427</span> visitors since 1998 • last updated: <span id="current-date">loading...</span>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Tab navigation
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Update active tab
+                document.querySelectorAll('.nav-tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Get which section to show
+                const sectionId = this.getAttribute('data-section');
+                
+                // Hide all blog posts
+                document.querySelectorAll('.blog-post').forEach(post => {
+                    post.classList.add('hidden');
+                });
+                
+                // Show selected section
+                document.getElementById(sectionId).classList.remove('hidden');
+                
+                // Update visitor count
+                const visitorCount = document.getElementById('visitor-count');
+                let currentVisitors = parseInt(visitorCount.textContent.replace(',', ''));
+                visitorCount.textContent = (currentVisitors + 1).toLocaleString();
+            });
+        });
+        
+        // Music player functionality
+        const playBtn = document.getElementById('play-btn');
+        const songTitle = document.querySelector('.song-title');
+        let isPlaying = false;
+        
+        playBtn.addEventListener('click', function() {
+            isPlaying = !isPlaying;
+            
+            if (isPlaying) {
+                songTitle.innerHTML = 'butterfly - smile.dk <span style="color:#ff66a3;">▶ now playing</span>';
+                this.style.backgroundColor = '#4db8ff';
+            } else {
+                songTitle.textContent = 'butterfly - smile.dk';
+                this.style.backgroundColor = '#ff66a3';
+            }
+        });
+        
+        // Update current date in footer
+        const now = new Date();
+        const options = { month: 'long', day: 'numeric', year: 'numeric' };
+        document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', options);
+        
+        // Simulate follower count increase
+        setInterval(() => {
+            const followerCount = document.getElementById('follower-count');
+            let currentFollowers = parseInt(followerCount.textContent.replace('.', '').replace('k', '00'));
+            
+            // Random small chance to gain a follower
+            if (Math.random() > 0.7) {
+                currentFollowers += 1;
+                followerCount.textContent = (currentFollowers / 1000).toFixed(1) + 'k';
+            }
+        }, 30000); // Check every 30 seconds
+        
+        // Add hover effects to blog posts
+        document.querySelectorAll('.blog-post').forEach(post => {
+            post.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            
+            post.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // Initialize hidden sections
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.blog-post').forEach(post => {
+                if (post.id !== 'home') {
+                    post.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

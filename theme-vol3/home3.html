@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thought Experiments | Unconventional Blog</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0a0a0a;
+            --secondary: #ff006e;
+            --accent: #00bbf9;
+            --text: #f8f9fa;
+            --bg: #0a0a0a;
+            --card-bg: rgba(20, 20, 20, 0.85);
+            --border: rgba(255, 255, 255, 0.1);
+            --shadow: rgba(0, 0, 0, 0.5);
+            --code-bg: rgba(0, 0, 0, 0.3);
+            --link: #00bbf9;
+            --link-hover: #ff006e;
+        }
+
+        .light-theme {
+            --primary: #ffffff;
+            --secondary: #d63384;
+            --accent: #0d6efd;
+            --text: #212529;
+            --bg: #f8f9fa;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border: rgba(0, 0, 0, 0.1);
+            --shadow: rgba(0, 0, 0, 0.1);
+            --code-bg: rgba(0, 0, 0, 0.05);
+            --link: #0d6efd;
+            --link-hover: #d63384;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            min-height: 100vh;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            line-height: 1.6;
+        }
+
+        /* Theme toggle button */
+        .theme-toggle {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 1000;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            transform: rotate(45deg);
+            backdrop-filter: blur(5px);
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(0deg);
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        /* Unconventional header */
+        .blog-header {
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+            position: relative;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+
+        .blog-title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            line-height: 1;
+        }
+
+        .blog-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.7;
+            font-style: italic;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Non-traditional navigation */
+        .blog-nav {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+            transform: rotate(-2deg);
+        }
+
+        .nav-link:hover {
+            color: var(--secondary);
+            transform: rotate(2deg) scale(1.1);
+        }
+
+        .nav-link.active {
+            color: var(--accent);
+            border-bottom: 2px solid var(--accent);
+            transform: rotate(0deg);
+        }
+
+        /* Main layout - non-grid */
+        .blog-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        /* Sidebar - unconventional placement */
+        .blog-sidebar {
+            width: 300px;
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+            margin-right: 3rem;
+            border-right: 1px solid var(--border);
+            padding-right: 2rem;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+        }
+
+        .sidebar-section {
+            margin-bottom: 3rem;
+            transform: rotate(180deg);
+            writing-mode: horizontal-tb;
+            width: 250px;
+        }
+
+        .sidebar-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            border-left: 3px solid var(--secondary);
+            padding-left: 0.5rem;
+        }
+
+        .category-list, .tag-list {
+            list-style: none;
+        }
+
+        .category-item, .tag-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .category-link, .tag-link {
+            color: var(--text);
+            text-decoration: none;
+            padding: 0.25rem 0;
+            display: inline-block;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .category-link:hover, .tag-link:hover {
+            color: var(--secondary);
+            padding-left: 1rem;
+        }
+
+        .category-link:hover::before, .tag-link:hover::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+        }
+
+        /* Blog posts area */
+        .blog-posts {
+            flex: 1;
+            max-width: 800px;
+        }
+
+        /* Unconventional post card */
+        .post-card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            margin-bottom: 3rem;
+            padding: 2.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+            transform: perspective(1000px) rotateX(1deg) rotateY(-1deg);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .post-card:nth-child(odd) {
+            transform: perspective(1000px) rotateX(-1deg) rotateY(1deg);
+        }
+
+        .post-card:hover {
+            transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(-5px);
+            border-color: var(--secondary);
+        }
+
+        .post-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .post-category {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .post-date {
+            color: var(--text);
+        }
+
+        .post-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            background: linear-gradient(45deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .post-excerpt {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .read-more {
+            display: inline-block;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--secondary);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .read-more:hover {
+            background-color: var(--secondary);
+            color: var(--bg);
+            transform: translateX(10px);
+        }
+
+        /* Post tags */
+        .post-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .tag {
+            background-color: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 0.25rem 0.75rem;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background-color: var(--accent);
+            color: var(--bg);
+            transform: rotate(5deg);
+        }
+
+        /* Featured post special styling */
+        .featured-post {
+            border-width: 3px;
+            border-color: var(--secondary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-post::before {
+            content: 'FEATURED';
+            position: absolute;
+            top: 1rem;
+            right: -2rem;
+            background: var(--secondary);
+            color: white;
+            padding: 0.5rem 3rem;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Blog post detail page */
+        .post-detail {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .post-header {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .post-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .post-content h2 {
+            font-size: 2rem;
+            margin: 2rem 0 1rem;
+            color: var(--accent);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .post-content h3 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--secondary);
+        }
+
+        .post-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .post-content blockquote {
+            border-left: 4px solid var(--secondary);
+            padding-left: 2rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: var(--text);
+            opacity: 0.9;
+            transform: perspective(1000px) rotateY(-5deg);
+            background-color: var(--code-bg);
+            padding: 1.5rem;
+        }
+
+        .post-content pre {
+            background-color: var(--code-bg);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            transform: perspective(1000px) rotateY(5deg);
+        }
+
+        .post-content code {
+            font-family: 'Courier New', monospace;
+            background-color: var(--code-bg);
+            padding: 0.2rem 0.4rem;
+        }
+
+        .post-content img {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease;
+        }
+
+        .post-content img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Author bio */
+        .author-bio {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            margin: 3rem 0;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            transform: perspective(1000px) rotateX(2deg);
+        }
+
+        .author-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid var(--secondary);
+            transform: rotate(5deg);
+            transition: transform 0.3s ease;
+        }
+
+        .author-avatar:hover {
+            transform: rotate(0deg) scale(1.1);
+        }
+
+        .author-info h3 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Comments section */
+        .comments-section {
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+        }
+
+        .comment-form {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            margin-bottom: 3rem;
+            transform: perspective(1000px) rotateY(-2deg);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            transform: translateX(5px);
+        }
+
+        .submit-btn {
+            background-color: transparent;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--secondary);
+            color: var(--bg);
+            transform: translateY(-3px);
+        }
+
+        /* Comment thread */
+        .comment {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            transform: perspective(1000px) rotateY(1deg);
+        }
+
+        .comment:nth-child(even) {
+            transform: perspective(1000px) rotateY(-1deg);
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .comment-author {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .comment-date {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Newsletter signup */
+        .newsletter {
+            background-color: var(--card-bg);
+            border: 2px dashed var(--secondary);
+            padding: 3rem;
+            margin: 4rem 0;
+            text-align: center;
+            transform: perspective(1000px) rotateX(3deg);
+        }
+
+        .newsletter h2 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        .blog-footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            color: var(--text);
+            opacity: 0.7;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .social-link {
+            color: var(--text);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            transform: rotate(45deg);
+        }
+
+        .social-link:hover {
+            color: var(--secondary);
+            transform: rotate(0deg) scale(1.2);
+        }
+
+        /* Background effects */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: var(--secondary);
+            opacity: 0.3;
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 1024px) {
+            .blog-container {
+                flex-direction: column;
+            }
+            
+            .blog-sidebar {
+                width: 100%;
+                writing-mode: horizontal-tb;
+                transform: none;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                padding-right: 0;
+                padding-bottom: 2rem;
+                margin-right: 0;
+                margin-bottom: 3rem;
+                position: static;
+            }
+            
+            .sidebar-section {
+                transform: none;
+                width: 100%;
+            }
+            
+            .blog-nav {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .blog-title {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .blog-title {
+                font-size: 2.5rem;
+            }
+            
+            .post-card {
+                padding: 1.5rem;
+            }
+            
+            .post-title {
+                font-size: 2rem;
+            }
+            
+            .author-bio {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .theme-toggle {
+                top: 1rem;
+                left: 1rem;
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, var(--secondary), var(--accent));
+            border-radius: 4px;
+        }
+
+        /* Selection color */
+        ::selection {
+            background: linear-gradient(45deg, var(--secondary), var(--accent));
+            color: var(--bg);
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <!-- Theme toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Background particles -->
+    <div class="bg-particles" id="bgParticles"></div>
+
+    <!-- Blog Header -->
+    <header class="blog-header">
+        <h1 class="blog-title">Thought Experiments</h1>
+        <p class="blog-subtitle">An unconventional blog exploring digital frontiers, creative coding, and experimental interfaces</p>
+        
+        <nav class="blog-nav">
+            <a href="#" class="nav-link active">All Posts</a>
+            <a href="#" class="nav-link">Essays</a>
+            <a href="#" class="nav-link">Tutorials</a>
+            <a href="#" class="nav-link">Experiments</a>
+            <a href="#" class="nav-link">Archives</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="blog-container">
+        <!-- Sidebar -->
+        <aside class="blog-sidebar">
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">Categories</h3>
+                <ul class="category-list">
+                    <li class="category-item"><a href="#" class="category-link">Creative Coding</a></li>
+                    <li class="category-item"><a href="#" class="category-link">UX Experiments</a></li>
+                    <li class="category-item"><a href="#" class="category-link">Digital Art</a></li>
+                    <li class="category-item"><a href="#" class="category-link">WebGL</a></li>
+                    <li class="category-item"><a href="#" class="category-link">Typography</a></li>
+                    <li class="category-item"><a href="#" class="category-link">Philosophy</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">Popular Tags</h3>
+                <div class="tag-list">
+                    <a href="#" class="tag-link">#experimental</a>
+                    <a href="#" class="tag-link">#interactive</a>
+                    <a href="#" class="tag-link">#generative</a>
+                    <a href="#" class="tag-link">#unconventional</a>
+                    <a href="#" class="tag-link">#motion</a>
+                    <a href="#" class="tag-link">#3D</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">Recent</h3>
+                <ul class="category-list">
+                    <li class="category-item"><a href="#" class="category-link">Breaking the Scroll</a></li>
+                    <li class="category-item"><a href="#" class="category-link">CSS Chaos Theory</a></li>
+                    <li class="category-item"><a href="#" class="category-link">The Anti-Pattern</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Blog Posts -->
+        <main class="blog-posts">
+            <!-- Featured Post -->
+            <article class="post-card featured-post">
+                <div class="post-meta">
+                    <span class="post-category">Creative Coding</span>
+                    <span class="post-date">March 15, 2023</span>
+                </div>
+                <h2 class="post-title">Deconstructing the Digital Canvas</h2>
+                <p class="post-excerpt">What happens when we treat web pages not as documents but as living, breathing art installations? This exploration breaks down the conventional container model and imagines interfaces that evolve, mutate, and respond to their environment.</p>
+                <a href="#post-detail" class="read-more">Continue Reading →</a>
+                <div class="post-tags">
+                    <span class="tag">#experimental</span>
+                    <span class="tag">#art</span>
+                    <span class="tag">#philosophy</span>
+                </div>
+            </article>
+
+            <!-- Regular Posts -->
+            <article class="post-card">
+                <div class="post-meta">
+                    <span class="post-category">UX Experiments</span>
+                    <span class="post-date">March 10, 2023</span>
+                </div>
+                <h2 class="post-title">The Non-Linear Navigation Manifesto</h2>
+                <p class="post-excerpt">Why must websites follow predictable paths? In this piece, we explore navigation systems that prioritize discovery over efficiency, creating digital spaces that feel more like exploration than transaction.</p>
+                <a href="#" class="read-more">Continue Reading →</a>
+                <div class="post-tags">
+                    <span class="tag">#navigation</span>
+                    <span class="tag">#ux</span>
+                    <span class="tag">#experimental</span>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-meta">
+                    <span class="post-category">Digital Art</span>
+                    <span class="post-date">March 5, 2023</span>
+                </div>
+                <h2 class="post-title">Procedural Typography in the Browser</h2>
+                <p class="post-excerpt">Using WebGL and custom shaders to generate type that evolves, decays, and regenerates in real-time. This tutorial walks through creating living fonts that respond to user interaction and environmental variables.</p>
+                <a href="#" class="read-more">Continue Reading →</a>
+                <div class="post-tags">
+                    <span class="tag">#webgl</span>
+                    <span class="tag">#typography</span>
+                    <span class="tag">#generative</span>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-meta">
+                    <span class="post-category">Philosophy</span>
+                    <span class="post-date">February 28, 2023</span>
+                </div>
+                <h2 class="post-title">The Aesthetics of Brokenness</h2>
+                <p class="post-excerpt">Can digital imperfection be a design feature rather than a bug? Exploring how glitches, loading states, and error conditions can become moments of beauty and unexpected interaction.</p>
+                <a href="#" class="read-more">Continue Reading →</a>
+                <div class="post-tags">
+                    <span class="tag">#philosophy</span>
+                    <span class="tag">#aesthetics</span>
+                    <span class="tag">#unconventional</span>
+                </div>
+            </article>
+
+            <!-- Newsletter Signup -->
+            <section class="newsletter">
+                <h2>Subscribe to Thought Experiments</h2>
+                <p>Get irregular updates on unconventional web design, creative coding, and digital experimentation.</p>
+                <form class="newsletter-form">
+                    <div class="form-group">
+                        <input type="email" class="form-input" placeholder="your.email@example.com" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Subscribe</button>
+                </form>
+            </section>
+
+            <!-- Post Detail (hidden by default) -->
+            <article id="post-detail" class="post-detail" style="display: none;">
+                <header class="post-header">
+                    <div class="post-meta">
+                        <span class="post-category">Creative Coding</span>
+                        <span class="post-date">March 15, 2023 • 8 min read</span>
+                    </div>
+                    <h1 class="post-title">Deconstructing the Digital Canvas</h1>
+                    <div class="post-tags">
+                        <span class="tag">#experimental</span>
+                        <span class="tag">#art</span>
+                        <span class="tag">#philosophy</span>
+                        <span class="tag">#webgl</span>
+                    </div>
+                </header>
+
+                <div class="post-content">
+                    <p>We've grown accustomed to thinking of web pages as containers. Rectangles within rectangles, grids that hold content, predictable boxes that behave predictably. But what if we challenged this fundamental assumption?</p>
+                    
+                    <h2>The Container Model is a Choice, Not a Law</h2>
+                    <p>The rectangular container model emerged from practical constraints: screen shapes, printing limitations, early browser capabilities. But today's web technologies offer far more flexibility than we typically employ.</p>
+                    
+                    <blockquote>
+                        "The most dangerous phrase in the language is 'We've always done it this way.'" — Grace Hopper
+                    </blockquote>
+                    
+                    <p>Consider the canvas element, WebGL, CSS transforms, and the emerging capabilities of WebGPU. These technologies don't care about rectangles. They create spaces where content can flow, twist, fragment, and reassemble in ways that feel organic rather than mechanical.</p>
+                    
+                    <h3>Breaking the Frame</h3>
+                    <p>What does it mean to "break the frame" in digital design? It means:</p>
+                    
+                    <pre><code>// Instead of this:
+.container {
+    width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+// We might try this:
+.canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.content {
+    position: relative;
+    transform-style: preserve-3d;
+    animation: float 20s infinite linear;
+}</code></pre>
+                    
+                    <p>This isn't about being different for difference's sake. It's about exploring what digital media can be when we release it from the constraints of physical media thinking.</p>
+                    
+                    <h2>Living Interfaces</h2>
+                    <p>An interface that changes based on:</p>
+                    <ul>
+                        <li>Time of day</li>
+                        <li>Weather conditions (accessed via API)</li>
+                        <li>User's emotional state (through webcam analysis)</li>
+                        <li>Local network activity</li>
+                        <li>Phase of the moon</li>
+                    </ul>
+                    
+                    <p>These variables create interfaces that feel alive—that have mood, personality, and responsiveness that goes beyond reacting to clicks and scrolls.</p>
+                    
+                    <h3>Practical Experiment: The Shape-Shifting Portfolio</h3>
+                    <p>I recently rebuilt my portfolio to have no fixed structure. Instead:</p>
+                    <ol>
+                        <li>Content exists as independent particles in 3D space</li>
+                        <li>Navigation happens through spatial movement rather than clicks</li>
+                        <li>The entire "page" can be rotated, zoomed, and explored like a physical space</li>
+                        <li>Different content types have different physical properties</li>
+                    </ol>
+                    
+                    <p>The result feels less like reading a document and more like exploring an environment.</p>
+                </div>
+
+                <!-- Author Bio -->
+                <div class="author-bio">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Author" class="author-avatar">
+                    <div class="author-info">
+                        <h3>Alex Morgan</h3>
+                        <p>Digital experimentalist and creative developer. Breaks websites for fun and profit. Believes digital spaces should feel more like exploration than transaction.</p>
+                    </div>
+                </div>
+
+                <!-- Comments Section -->
+                <section class="comments-section">
+                    <h2>Conversation (3)</h2>
+                    
+                    <div class="comment">
+                        <div class="comment-header">
+                            <span class="comment-author">Jordan Lee</span>
+                            <span class="comment-date">March 16, 2023</span>
+                        </div>
+                        <p>This resonates deeply. I've been feeling constrained by component libraries that enforce consistency at the cost of creativity. How do you balance experimental interfaces with accessibility requirements?</p>
+                    </div>
+                    
+                    <div class="comment">
+                        <div class="comment-header">
+                            <span class="comment-author">Casey Kim</span>
+                            <span class="comment-date">March 15, 2023</span>
+                        </div>
+                        <p>The shape-shifting portfolio idea is fascinating. Have you considered open-sourcing the code? I'd love to see how you handle the 3D spatial navigation.</p>
+                    </div>
+
+                    <!-- Comment Form -->
+                    <form class="comment-form">
+                        <h3>Join the Conversation</h3>
+                        <div class="form-group">
+                            <label class="form-label" for="comment-name">Name</label>
+                            <input type="text" id="comment-name" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="comment-email">Email (not published)</label>
+                            <input type="email" id="comment-email" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="comment-text">Comment</label>
+                            <textarea id="comment-text" class="form-textarea" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Post Comment</button>
+                    </form>
+                </section>
+            </article>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="blog-footer">
+        <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-codepen"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <p>Thought Experiments © 2023 | An ongoing exploration of digital possibilities</p>
+        <p>Content is free to remix, reuse, and reinvent</p>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const icon = themeToggle.querySelector('i');
+        
+        // Check for saved theme or prefer-color-scheme
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('blog-theme');
+        
+        // Set initial theme
+        if (currentTheme === 'light' || (!currentTheme && !prefersDarkScheme.matches)) {
+            body.classList.remove('dark-theme');
+            body.classList.add('light-theme');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        } else {
+            body.classList.remove('light-theme');
+            body.classList.add('dark-theme');
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+        }
+        
+        // Toggle theme
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('dark-theme')) {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('blog-theme', 'light');
+            } else {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('blog-theme', 'dark');
+            }
+        });
+        
+        // Create background particles
+        const bgParticles = document.getElementById('bgParticles');
+        
+        function createParticles() {
+            // Clear existing particles
+            bgParticles.innerHTML = '';
+            
+            // Create new particles
+            const particleCount = body.classList.contains('light-theme') ? 15 : 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                
+                // Random size
+                const size = Math.random() * 6 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random color based on theme
+                if (body.classList.contains('light-theme')) {
+                    const colors = ['#d63384', '#0d6efd', '#6f42c1'];
+                    particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                } else {
+                    const colors = ['#ff006e', '#00bbf9', '#f15bb5'];
+                    particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                }
+                
+                // Random animation
+                const duration = Math.random() * 30 + 20;
+                const delay = Math.random() * 10;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                bgParticles.appendChild(particle);
+            }
+        }
+        
+        // Initialize particles
+        createParticles();
+        
+        // Recreate particles on theme change
+        themeToggle.addEventListener('click', () => {
+            setTimeout(createParticles, 300);
+        });
+        
+        // Post navigation
+        const readMoreLinks = document.querySelectorAll('.read-more');
+        const postDetail = document.getElementById('post-detail');
+        const blogPosts = document.querySelector('.blog-posts');
+        
+        readMoreLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (link.getAttribute('href') === '#post-detail') {
+                    e.preventDefault();
+                    
+                    // Hide all posts and show detail
+                    document.querySelectorAll('.post-card').forEach(card => {
+                        card.style.display = 'none';
+                    });
+                    document.querySelector('.newsletter').style.display = 'none';
+                    postDetail.style.display = 'block';
+                    
+                    // Scroll to top
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+        });
+        
+        // Back to posts functionality (could be implemented with a back button)
+        
+        // Form submission
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                if (form.classList.contains('newsletter-form')) {
+                    const email = form.querySelector('input[type="email"]').value;
+                    alert(`Thanks for subscribing with ${email}! You'll receive irregular thoughts when inspiration strikes.`);
+                    form.reset();
+                } else if (form.classList.contains('comment-form')) {
+                    alert('Comment submitted! (In a real implementation, this would send to a server)');
+                    form.reset();
+                }
+            });
+        });
+        
+        // Nav link active state
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+        
+        // Hover effects for post cards
+        const postCards = document.querySelectorAll('.post-card');
+        postCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.zIndex = '10';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.zIndex = '1';
+            });
+        });
+        
+        // Dynamic tag colors
+        const tags = document.querySelectorAll('.tag, .tag-link');
+        tags.forEach(tag => {
+            tag.addEventListener('mouseenter', () => {
+                const colors = body.classList.contains('light-theme') 
+                    ? ['#d63384', '#0d6efd', '#6f42c1', '#20c997', '#fd7e14']
+                    : ['#ff006e', '#00bbf9', '#f15bb5', '#9b5de5', '#00f5d4'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                if (tag.classList.contains('tag')) {
+                    tag.style.backgroundColor = randomColor;
+                    tag.style.color = body.classList.contains('light-theme') ? 'white' : '#0a0a0a';
+                } else {
+                    tag.style.color = randomColor;
+                }
+            });
+            
+            tag.addEventListener('mouseleave', () => {
+                setTimeout(() => {
+                    if (tag.classList.contains('tag')) {
+                        tag.style.backgroundColor = '';
+                        tag.style.color = '';
+                    } else {
+                        tag.style.color = '';
+                    }
+                }, 300);
+            });
+        });
+        
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Toggle theme with 't' key
+            if (e.key === 't' || e.key === 'T') {
+                themeToggle.click();
+            }
+            
+            // Escape key to go back from post detail
+            if (e.key === 'Escape' && postDetail.style.display === 'block') {
+                postDetail.style.display = 'none';
+                document.querySelectorAll('.post-card').forEach(card => {
+                    card.style.display = 'block';
+                });
+                document.querySelector('.newsletter').style.display = 'block';
+            }
+        });
+        
+        // Add view transitions for smooth experience
+        if (document.startViewTransition) {
+            // This would be used for a more advanced implementation
+            console.log('View Transitions API available');
+        }
+        
+        // Initialize with a welcome message on first visit
+        if (!localStorage.getItem('blog-visited')) {
+            setTimeout(() => {
+                alert("Welcome to Thought Experiments! An unconventional blog exploring digital frontiers.\n\nTry:\n• Clicking the theme toggle (top-left)\n• Hovering over posts for 3D effects\n• Using 'T' key to toggle theme\n• Pressing ESC to navigate back");
+                localStorage.setItem('blog-visited', 'true');
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
