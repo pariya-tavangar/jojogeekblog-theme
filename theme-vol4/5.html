@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYBERNOVA | Neon Cyberpunk Blog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Dark theme (default) */
+            --cyber-black: #0a0a0f;
+            --cyber-cyan: #00f3ff;
+            --cyber-magenta: #ff00ff;
+            --cyber-gray: #2a2a3a;
+            --cyber-green: #00ff41;
+            --text-primary: #e0e0ff;
+            --text-secondary: #a0a0c0;
+            --surface: rgba(42, 42, 58, 0.6);
+            --sidebar-bg: rgba(10, 10, 15, 0.8);
+            --grid-color: rgba(0, 243, 255, 0.03);
+            --border-color: #2a2a3a;
+        }
+
+        .theme-light {
+            /* Light theme variables */
+            --cyber-black: #f0f2f8;
+            --cyber-cyan: #008cff;
+            --cyber-magenta: #ff0080;
+            --cyber-gray: #d0d4e0;
+            --cyber-green: #00a82d;
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a6e;
+            --surface: rgba(255, 255, 255, 0.9);
+            --sidebar-bg: rgba(255, 255, 255, 0.95);
+            --grid-color: rgba(0, 140, 255, 0.05);
+            --border-color: #d0d4e0;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: var(--cyber-black);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 243, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 20%);
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .theme-light body {
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 140, 255, 0.08) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 128, 0.08) 0%, transparent 20%);
+        }
+
+        /* Grid overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            pointer-events: none;
+            transition: background-image 0.5s ease;
+        }
+
+        /* Scanline effect - only in dark mode */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                transparent 50%,
+                rgba(0, 0, 0, 0.05) 50%
+            );
+            background-size: 100% 4px;
+            z-index: -1;
+            pointer-events: none;
+            animation: scanline 10s linear infinite;
+            opacity: 0.3;
+        }
+
+        .theme-light body::after {
+            background: linear-gradient(
+                to bottom,
+                transparent 50%,
+                rgba(0, 0, 0, 0.02) 50%
+            );
+            opacity: 0.2;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100vh); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            gap: 30px;
+            min-height: 100vh;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 30px;
+            background: var(--surface);
+            border: 1px solid var(--cyber-cyan);
+            border-radius: 15px;
+            cursor: pointer;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            padding: 0 5px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .theme-toggle:hover {
+            box-shadow: 0 0 15px var(--cyber-cyan);
+        }
+
+        .toggle-slider {
+            width: 22px;
+            height: 22px;
+            background: var(--cyber-cyan);
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-light .toggle-slider {
+            transform: translateX(30px);
+            background: var(--cyber-magenta);
+        }
+
+        .toggle-icon {
+            position: absolute;
+            font-size: 0.9rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .toggle-icon.sun {
+            left: 8px;
+            color: #ff9500;
+        }
+
+        .toggle-icon.moon {
+            right: 8px;
+            color: #e0e0ff;
+        }
+
+        .theme-light .toggle-icon.sun {
+            color: #ff9500;
+        }
+
+        .theme-light .toggle-icon.moon {
+            color: #4a4a6e;
+        }
+
+        /* Header */
+        header {
+            grid-column: 1 / -1;
+            padding: 30px 0;
+            border-bottom: 2px solid var(--cyber-cyan);
+            box-shadow: 
+                0 0 20px var(--cyber-cyan),
+                inset 0 0 20px rgba(0, 243, 255, 0.1);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            animation: pulse 3s infinite;
+            background: var(--surface);
+            backdrop-filter: blur(10px);
+        }
+
+        .theme-light header {
+            box-shadow: 
+                0 0 20px rgba(0, 140, 255, 0.3),
+                inset 0 0 20px rgba(0, 140, 255, 0.05);
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                box-shadow: 
+                    0 0 20px var(--cyber-cyan),
+                    inset 0 0 20px rgba(0, 243, 255, 0.1); 
+            }
+            50% { 
+                box-shadow: 
+                    0 0 30px var(--cyber-cyan),
+                    inset 0 0 30px rgba(0, 243, 255, 0.2); 
+            }
+        }
+
+        .theme-light @keyframes pulse {
+            0%, 100% { 
+                box-shadow: 
+                    0 0 20px rgba(0, 140, 255, 0.3),
+                    inset 0 0 20px rgba(0, 140, 255, 0.05); 
+            }
+            50% { 
+                box-shadow: 
+                    0 0 30px rgba(0, 140, 255, 0.4),
+                    inset 0 0 30px rgba(0, 140, 255, 0.1); 
+            }
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--cyber-cyan), var(--cyber-magenta));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            padding-right: 10px;
+        }
+
+        .logo::after {
+            content: '█';
+            color: var(--cyber-cyan);
+            animation: blink 1s infinite;
+            margin-left: 5px;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Navigation */
+        nav ul {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-item {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 1px solid transparent;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            background: var(--surface);
+        }
+
+        .nav-item:hover {
+            color: var(--cyber-cyan);
+            border-color: var(--cyber-cyan);
+            box-shadow: 0 0 10px var(--cyber-cyan);
+        }
+
+        .nav-item.active {
+            color: var(--cyber-magenta);
+            border-color: var(--cyber-magenta);
+            box-shadow: 0 0 15px var(--cyber-magenta);
+        }
+
+        /* Sidebars */
+        .sidebar {
+            background-color: var(--sidebar-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            height: fit-content;
+            position: sticky;
+            top: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-left {
+            border-top: 3px solid var(--cyber-cyan);
+        }
+
+        .sidebar-right {
+            border-top: 3px solid var(--cyber-magenta);
+        }
+
+        .sidebar-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--cyber-cyan);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-title.right {
+            color: var(--cyber-magenta);
+        }
+
+        .sidebar-title i {
+            font-size: 1.1rem;
+        }
+
+        /* Main Content */
+        main {
+            padding: 20px 0;
+        }
+
+        /* Post Cards */
+        .post-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 30px;
+            margin-bottom: 40px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cyber-cyan), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .post-card:hover {
+            border-color: var(--cyber-cyan);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .theme-light .post-card:hover {
+            box-shadow: 0 0 30px rgba(0, 140, 255, 0.2);
+        }
+
+        .post-card:hover::before {
+            left: 100%;
+        }
+
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .post-date {
+            color: var(--cyber-cyan);
+        }
+
+        .post-category {
+            background-color: rgba(255, 0, 255, 0.1);
+            color: var(--cyber-magenta);
+            padding: 5px 15px;
+            border-radius: 2px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255, 0, 255, 0.3);
+        }
+
+        .theme-light .post-category {
+            background-color: rgba(255, 0, 128, 0.1);
+            border: 1px solid rgba(255, 0, 128, 0.2);
+        }
+
+        .post-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .post-card:hover .post-title {
+            color: var(--cyber-cyan);
+            animation: glitch 0.3s ease;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .post-excerpt {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+
+        .read-more {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--cyber-cyan);
+            border: 1px solid var(--cyber-cyan);
+            padding: 10px 25px;
+            font-family: 'Orbitron', sans-serif;
+            text-decoration: none;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .read-more::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+
+        .read-more:hover {
+            background-color: rgba(0, 243, 255, 0.1);
+            box-shadow: 0 0 15px var(--cyber-cyan);
+        }
+
+        .theme-light .read-more:hover {
+            background-color: rgba(0, 140, 255, 0.1);
+        }
+
+        .read-more:hover::before {
+            left: 100%;
+        }
+
+        /* Lists */
+        .data-list {
+            list-style: none;
+        }
+
+        .data-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.1);
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: border-color 0.3s ease;
+        }
+
+        .theme-light .data-list li {
+            border-bottom: 1px solid rgba(0, 140, 255, 0.1);
+        }
+
+        .data-list li:last-child {
+            border-bottom: none;
+        }
+
+        .data-value {
+            color: var(--cyber-cyan);
+            font-weight: bold;
+        }
+
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag {
+            background-color: rgba(255, 0, 255, 0.1);
+            color: var(--cyber-magenta);
+            padding: 5px 10px;
+            border-radius: 2px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .theme-light .tag {
+            background-color: rgba(255, 0, 128, 0.1);
+            border: 1px solid rgba(255, 0, 128, 0.2);
+        }
+
+        .tag:hover {
+            background-color: rgba(255, 0, 255, 0.2);
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .theme-light .tag:hover {
+            background-color: rgba(255, 0, 128, 0.2);
+            box-shadow: 0 0 10px rgba(255, 0, 128, 0.3);
+        }
+
+        /* Terminal */
+        .terminal {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 400px;
+            background-color: rgba(10, 10, 15, 0.95);
+            border: 1px solid var(--cyber-green);
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            z-index: 1000;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            display: none;
+            backdrop-filter: blur(10px);
+        }
+
+        .theme-light .terminal {
+            background-color: rgba(255, 255, 255, 0.95);
+            border: 1px solid var(--cyber-green);
+        }
+
+        .terminal-header {
+            background-color: var(--cyber-green);
+            color: #000;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .terminal-close {
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #000;
+        }
+
+        .terminal-body {
+            padding: 15px;
+            height: 200px;
+            overflow-y: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: var(--cyber-green);
+        }
+
+        .theme-light .terminal-body {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: var(--cyber-green);
+        }
+
+        .terminal-output {
+            margin-bottom: 10px;
+            color: var(--cyber-green);
+        }
+
+        .terminal-input {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-top: 1px solid var(--cyber-green);
+        }
+
+        .theme-light .terminal-input {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .terminal-prompt {
+            color: var(--cyber-green);
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        #terminal-input {
+            background: transparent;
+            border: none;
+            color: var(--cyber-green);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            width: 100%;
+            outline: none;
+        }
+
+        /* Terminal toggle button */
+        .terminal-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--cyber-green);
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 0 15px var(--cyber-green);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .terminal-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px var(--cyber-green);
+        }
+
+        /* Hacker Mode */
+        body.hacker-mode {
+            filter: invert(1) hue-rotate(90deg) contrast(1.5);
+        }
+
+        .theme-light body.hacker-mode {
+            filter: invert(0) hue-rotate(180deg) contrast(1.8);
+        }
+
+        body.hacker-mode .post-title,
+        body.hacker-mode .sidebar-title,
+        body.hacker-mode .logo {
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Footer */
+        footer {
+            grid-column: 1 / -1;
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 40px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            background: var(--surface);
+            backdrop-filter: blur(10px);
+            border-radius: 5px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 2px;
+        }
+
+        .footer-links a:hover {
+            color: var(--cyber-cyan);
+            background: rgba(0, 243, 255, 0.1);
+        }
+
+        .theme-light .footer-links a:hover {
+            background: rgba(0, 140, 255, 0.1);
+        }
+
+        /* Theme transition for all elements */
+        .theme-transition * {
+            transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 200px 1fr;
+            }
+            
+            .sidebar-right {
+                grid-column: 1 / -1;
+                margin-top: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 0 15px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .theme-toggle {
+                top: 15px;
+                right: 15px;
+                width: 50px;
+                height: 25px;
+            }
+            
+            .theme-light .toggle-slider {
+                transform: translateX(25px);
+            }
+            
+            .terminal {
+                width: 100%;
+                right: 0;
+            }
+            
+            .post-title {
+                font-size: 1.7rem;
+            }
+            
+            .footer-links {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body class="theme-transition">
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="theme-toggle">
+        <div class="toggle-slider"></div>
+        <i class="fas fa-sun toggle-icon sun"></i>
+        <i class="fas fa-moon toggle-icon moon"></i>
+    </div>
+
+    <!-- Terminal Toggle -->
+    <div class="terminal-toggle" id="terminal-toggle">
+        <i class="fas fa-terminal"></i>
+    </div>
+
+    <!-- Cyber Terminal -->
+    <div class="terminal" id="terminal">
+        <div class="terminal-header">
+            CYBERNOVA TERMINAL v2.1
+            <div class="terminal-close" id="terminal-close">&times;</div>
+        </div>
+        <div class="terminal-body" id="terminal-body">
+            <div class="terminal-output">SYSTEM BOOTED</div>
+            <div class="terminal-output">WELCOME TO CYBERNOVA BLOG SYSTEM</div>
+            <div class="terminal-output">Type 'help' for available commands</div>
+            <div class="terminal-output">=================================</div>
+        </div>
+        <div class="terminal-input">
+            <span class="terminal-prompt">[USER@CYBERNOVA:~]$</span>
+            <input type="text" id="terminal-input" autocomplete="off">
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <div class="logo">CYBERNOVA</div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="nav-item active">HOME</a></li>
+                        <li><a href="#" class="nav-item">POSTS</a></li>
+                        <li><a href="#" class="nav-item">ABOUT</a></li>
+                        <li><a href="#" class="nav-item">CONTACT</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Left Sidebar -->
+        <aside class="sidebar sidebar-left">
+            <h3 class="sidebar-title"><i class="fas fa-server"></i> SYSTEM STATUS</h3>
+            <ul class="data-list">
+                <li>ACTIVE USERS <span class="data-value" id="active-users">247</span></li>
+                <li>POSTS LOADED <span class="data-value">18</span></li>
+                <li>COMMENTS <span class="data-value">342</span></li>
+                <li>UPTIME <span class="data-value">99.7%</span></li>
+                <li>THEME <span class="data-value" id="current-theme">DARK</span></li>
+            </ul>
+
+            <h3 class="sidebar-title" style="margin-top: 30px;"><i class="fas fa-satellite-dish"></i> NETWORK</h3>
+            <ul class="data-list">
+                <li>BANDWIDTH <span class="data-value">1.2 Gb/s</span></li>
+                <li>LATENCY <span class="data-value">14ms</span></li>
+                <li>ENCRYPTION <span class="data-value">AES-256</span></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Blog Post 1 -->
+            <article class="post-card">
+                <div class="post-meta">
+                    <span class="post-date">2024-03-15 22:47</span>
+                    <span class="post-category">CYBERSECURITY</span>
+                </div>
+                <h2 class="post-title">Neural Networks & Digital Consciousness</h2>
+                <p class="post-excerpt">
+                    Exploring the intersection of quantum computing and artificial consciousness. 
+                    How close are we to creating true digital minds? Recent breakthroughs suggest 
+                    we're only a few synaptic algorithms away from self-aware AI systems...
+                </p>
+                <a href="#" class="read-more">ACCESS FULL REPORT</a>
+            </article>
+
+            <!-- Blog Post 2 -->
+            <article class="post-card">
+                <div class="post-meta">
+                    <span class="post-date">2024-03-10 19:22</span>
+                    <span class="post-category">TECHNOLOGY</span>
+                </div>
+                <h2 class="post-title">Holographic Interfaces: Beyond Touch</h2>
+                <p class="post-excerpt">
+                    The next evolution in human-computer interaction isn't about touching screens—it's about 
+                    manipulating light. We tested prototype holographic systems that respond to gestures, 
+                    eye movement, and even neural impulses...
+                </p>
+                <a href="#" class="read-more">ACCESS FULL REPORT</a>
+            </article>
+
+            <!-- Blog Post 3 -->
+            <article class="post-card">
+                <div class="post-meta">
+                    <span class="post-date">2024-03-05 04:15</span>
+                    <span class="post-category">FUTURISM</span>
+                </div>
+                <h2 class="post-title">Megacity Architecture in 2049</h2>
+                <p class="post-excerpt">
+                    Vertical arcologies, atmospheric processors, and neural-linked infrastructure. 
+                    We analyze blueprints from leading urban design collectives to visualize the 
+                    cities of tomorrow. The future isn't just coming—it's being built layer by layer...
+                </p>
+                <a href="#" class="read-more">ACCESS FULL REPORT</a>
+            </article>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="sidebar sidebar-right">
+            <h3 class="sidebar-title right"><i class="fas fa-fire"></i> TRENDING TAGS</h3>
+            <div class="tag-cloud">
+                <span class="tag">AI</span>
+                <span class="tag">NEURAL</span>
+                <span class="tag">QUANTUM</span>
+                <span class="tag">CYBERPUNK</span>
+                <span class="tag">HOLO</span>
+                <span class="tag">SYNTHETIC</span>
+                <span class="tag">GRID</span>
+                <span class="tag">DATASPHERE</span>
+                <span class="tag">TRANSHUMAN</span>
+            </div>
+
+            <h3 class="sidebar-title right" style="margin-top: 30px;"><i class="fas fa-broadcast-tower"></i> RECENT INTRUSIONS</h3>
+            <ul class="data-list">
+                <li>USER_ALPHA <span class="data-value">2 min ago</span></li>
+                <li>USER_SIGMA <span class="data-value">7 min ago</span></li>
+                <li>USER_NULL <span class="data-value">15 min ago</span></li>
+                <li>USER_OMEGA <span class="data-value">22 min ago</span></li>
+            </ul>
+        </aside>
+
+        <!-- Footer -->
+        <footer>
+            <p>CYBERNOVA BLOG SYSTEM © 2024 | ALL DATA ENCRYPTED & SECURE</p>
+            <div class="footer-links">
+                <a href="#">PRIVACY PROTOCOL</a>
+                <a href="#">TERMS OF SERVICE</a>
+                <a href="#" id="hacker-mode-toggle">ACTIVATE HACKER MODE</a>
+                <a href="#" id="theme-info-toggle">THEME INFO</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const currentTheme = document.getElementById('current-theme');
+        const themeInfoToggle = document.getElementById('theme-info-toggle');
+        
+        // Terminal functionality
+        const terminal = document.getElementById('terminal');
+        const terminalToggle = document.getElementById('terminal-toggle');
+        const terminalClose = document.getElementById('terminal-close');
+        const terminalInput = document.getElementById('terminal-input');
+        const terminalBody = document.getElementById('terminal-body');
+        const hackerModeToggle = document.getElementById('hacker-mode-toggle');
+        const activeUsers = document.getElementById('active-users');
+
+        let terminalVisible = false;
+        let hackerMode = false;
+        let isLightTheme = false;
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('cybernova-theme');
+        if (savedTheme === 'light') {
+            enableLightTheme();
+        }
+
+        // Theme toggle function
+        function toggleTheme() {
+            if (isLightTheme) {
+                disableLightTheme();
+            } else {
+                enableLightTheme();
+            }
+            
+            // Update terminal if open
+            if (terminalVisible) {
+                outputTerminal(`Theme switched to ${isLightTheme ? 'LIGHT' : 'DARK'} mode`);
+            }
+        }
+
+        function enableLightTheme() {
+            document.documentElement.classList.add('theme-light');
+            isLightTheme = true;
+            currentTheme.textContent = 'LIGHT';
+            localStorage.setItem('cybernova-theme', 'light');
+            
+            // Add transition class for smooth change
+            document.body.classList.add('theme-transition');
+            setTimeout(() => {
+                document.body.classList.remove('theme-transition');
+            }, 500);
+        }
+
+        function disableLightTheme() {
+            document.documentElement.classList.remove('theme-light');
+            isLightTheme = false;
+            currentTheme.textContent = 'DARK';
+            localStorage.setItem('cybernova-theme', 'dark');
+            
+            // Add transition class for smooth change
+            document.body.classList.add('theme-transition');
+            setTimeout(() => {
+                document.body.classList.remove('theme-transition');
+            }, 500);
+        }
+
+        // Terminal commands
+        const commands = {
+            help: () => {
+                outputTerminal('Available commands:');
+                outputTerminal('  help - Show this message');
+                outputTerminal('  clear - Clear terminal');
+                outputTerminal('  theme [dark/light] - Change theme');
+                outputTerminal('  scan - Scan system');
+                outputTerminal('  hack - Activate hacker mode');
+                outputTerminal('  date - Show system date');
+                outputTerminal('  themeinfo - Show theme details');
+            },
+            clear: () => {
+                terminalBody.innerHTML = '';
+            },
+            theme: (args) => {
+                if (args[0] === 'light') {
+                    enableLightTheme();
+                    outputTerminal('Theme changed to LIGHT MODE');
+                } else if (args[0] === 'dark') {
+                    disableLightTheme();
+                    outputTerminal('Theme changed to DARK MODE');
+                } else {
+                    outputTerminal('Usage: theme [dark/light]');
+                }
+            },
+            scan: () => {
+                outputTerminal('Scanning system...');
+                outputTerminal('> Firewall: ACTIVE');
+                outputTerminal('> Encryption: AES-256');
+                outputTerminal('> Connections: 42');
+                outputTerminal('> Theme: ' + (isLightTheme ? 'LIGHT' : 'DARK'));
+                outputTerminal('> Threat level: LOW');
+                outputTerminal('Scan complete.');
+            },
+            hack: () => {
+                toggleHackerMode();
+                outputTerminal('HACKER MODE ' + (hackerMode ? 'ACTIVATED' : 'DEACTIVATED'));
+            },
+            date: () => {
+                outputTerminal(new Date().toLocaleString());
+            },
+            themeinfo: () => {
+                outputTerminal('=== THEME INFORMATION ===');
+                outputTerminal('Current: ' + (isLightTheme ? 'Light Theme' : 'Dark Theme'));
+                outputTerminal('Primary: ' + (isLightTheme ? '#008cff' : '#00f3ff'));
+                outputTerminal('Secondary: ' + (isLightTheme ? '#ff0080' : '#ff00ff'));
+                outputTerminal('Background: ' + (isLightTheme ? '#f0f2f8' : '#0a0a0f'));
+                outputTerminal('Toggle with: UI button or "theme" command');
+            }
+        };
+
+        // Terminal output function
+        function outputTerminal(text) {
+            const output = document.createElement('div');
+            output.className = 'terminal-output';
+            output.textContent = '> ' + text;
+            terminalBody.appendChild(output);
+            terminalBody.scrollTop = terminalBody.scrollHeight;
+        }
+
+        // Terminal input handler
+        terminalInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const input = terminalInput.value.trim();
+                terminalInput.value = '';
+                
+                if (input) {
+                    outputTerminal('$ ' + input);
+                    
+                    const parts = input.split(' ');
+                    const cmd = parts[0].toLowerCase();
+                    const args = parts.slice(1);
+                    
+                    if (commands[cmd]) {
+                        commands[cmd](args);
+                    } else {
+                        outputTerminal(`Command not found: ${cmd}. Type 'help' for available commands.`);
+                    }
+                }
+            }
+        });
+
+        // Toggle terminal visibility
+        terminalToggle.addEventListener('click', () => {
+            terminalVisible = !terminalVisible;
+            terminal.style.display = terminalVisible ? 'block' : 'none';
+            if (terminalVisible) {
+                terminalInput.focus();
+            }
+        });
+
+        terminalClose.addEventListener('click', () => {
+            terminalVisible = false;
+            terminal.style.display = 'none';
+        });
+
+        // Theme toggle event
+        themeToggle.addEventListener('click', toggleTheme);
+
+        // Theme info toggle
+        themeInfoToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            outputTerminal(`=== CURRENT THEME ===`);
+            outputTerminal(`Mode: ${isLightTheme ? 'Light' : 'Dark'}`);
+            outputTerminal(`Primary Color: ${isLightTheme ? '#008cff (Bright Blue)' : '#00f3ff (Neon Cyan)'}`);
+            outputTerminal(`Accent Color: ${isLightTheme ? '#ff0080 (Hot Pink)' : '#ff00ff (Neon Magenta)'}`);
+            outputTerminal(`Background: ${isLightTheme ? '#f0f2f8 (Light Gray)' : '#0a0a0f (Near Black)'}`);
+            
+            if (!terminalVisible) {
+                terminalVisible = true;
+                terminal.style.display = 'block';
+                terminalInput.focus();
+            }
+        });
+
+        // Hacker mode toggle
+        function toggleHackerMode() {
+            hackerMode = !hackerMode;
+            document.body.classList.toggle('hacker-mode', hackerMode);
+            
+            // Change active users to hex when in hacker mode
+            if (hackerMode) {
+                activeUsers.textContent = '0xF7';
+            } else {
+                activeUsers.textContent = '247';
+            }
+        }
+
+        hackerModeToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleHackerMode();
+            outputTerminal('HACKER MODE ' + (hackerMode ? 'ACTIVATED' : 'DEACTIVATED'));
+        });
+
+        // Post hover effects
+        const postCards = document.querySelectorAll('.post-card');
+        postCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // Add binary rain effect on hover
+                const binary = '010110100110010101110010011011110010000001101110011101010110110001101100';
+                const title = card.querySelector('.post-title');
+                const originalText = title.textContent;
+                
+                // Create a temporary glitch effect
+                title.style.animation = 'glitch 0.3s ease';
+                setTimeout(() => {
+                    title.style.animation = '';
+                }, 300);
+            });
+        });
+
+        // Animate active users counter
+        function animateUserCounter() {
+            let count = parseInt(activeUsers.textContent);
+            setInterval(() => {
+                if (!hackerMode) {
+                    // Randomly increment/decrement for dynamic effect
+                    const change = Math.random() > 0.5 ? 1 : -1;
+                    count = Math.max(200, count + change);
+                    activeUsers.textContent = count;
+                }
+            }, 5000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            animateUserCounter();
+            
+            // Add click effects to nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                    item.classList.add('active');
+                    
+                    // Terminal feedback
+                    if (terminalVisible) {
+                        outputTerminal(`Navigation: ${item.textContent}`);
+                    }
+                });
+            });
+            
+            // Welcome message
+            setTimeout(() => {
+                if (terminalVisible) {
+                    outputTerminal('System fully initialized. Welcome to CYBERNOVA.');
+                    outputTerminal(`Current theme: ${isLightTheme ? 'LIGHT' : 'DARK'}`);
+                }
+            }, 1000);
+        });
+
+        // Secret hacker mode shortcut
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.altKey && e.key === 'h') {
+                toggleHackerMode();
+                if (terminalVisible) {
+                    outputTerminal('HACKER MODE ' + (hackerMode ? 'ACTIVATED via shortcut' : 'DEACTIVATED'));
+                }
+            }
+            
+            // Theme toggle shortcut: Ctrl+Alt+T
+            if (e.ctrlKey && e.altKey && e.key === 't') {
+                e.preventDefault();
+                toggleTheme();
+                if (terminalVisible) {
+                    outputTerminal('Theme toggled via shortcut');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
